@@ -45,6 +45,22 @@ class UTip extends StatefulWidget {
 }
 
 class _UTipState extends State<UTip> {
+  int _personCount = 1;
+  //methods
+  void increament() {
+    setState(() {
+      _personCount = _personCount + 1;
+    });
+  }
+
+  void decreament() {
+    setState(() {
+      if (_personCount > 1) {
+        _personCount--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -59,24 +75,76 @@ class _UTipState extends State<UTip> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
 
         children: [
-          Container(
-            // height: MediaQuery.of(context).size.height * 0.15,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.deepPurple,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                Text("Tip per person", style: style),
-                Text(
-                  "\$25",
-                  style: style.copyWith(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: theme.textTheme.displaySmall?.fontSize,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              // height: MediaQuery.of(context).size.height * 0.15,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Text("Tip per person", style: style),
+                  Text(
+                    "\$25",
+                    style: style.copyWith(
+                      color: theme.colorScheme.onPrimary,
+                      fontSize: theme.textTheme.displaySmall?.fontSize,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: theme.colorScheme.primary, width: 2),
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money),
+                      labelText: "BILL AMOUNT",
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (String value) {
+                      print("vlaue $value");
+                    },
+                  ),
+                  //split bill area
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Split", style: theme.textTheme.titleMedium),
+                      Row(
+                        children: [
+                          IconButton(
+                            color: theme.colorScheme.primary,
+                            onPressed: decreament,
+                            icon: const Icon(Icons.remove),
+                          ),
+                          Text(
+                            "$_personCount",
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          IconButton(
+                            color: theme.colorScheme.primary,
+                            onPressed: increament,
+                            icon: const Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
