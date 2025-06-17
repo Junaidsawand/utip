@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:utip/tip_row.dart';
-import 'package:utip/total_per_person.dart';
+import 'package:utip/widgets/tip_row.dart';
+import 'package:utip/widgets/total_per_person.dart';
 import 'package:utip/widgets/bill_amount_.dart';
 import 'package:utip/widgets/person_counter.dart';
 import 'package:utip/widgets/tip_slider.dart';
