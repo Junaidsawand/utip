@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromARGB(255, 58, 4, 144),
+        ),
       ),
       home: const UTip(),
     );
@@ -46,6 +48,11 @@ class _UTipState extends State<UTip> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    final style = theme.textTheme.titleMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
+    );
+
     return Scaffold(
       appBar: AppBar(title: Text("UTip")),
       body: Column(
@@ -61,8 +68,14 @@ class _UTipState extends State<UTip> {
             ),
             child: Column(
               children: [
-                Text("Tip per person", style: theme.textTheme.displayMedium),
-                Text("\$25", style: theme.textTheme.displaySmall),
+                Text("Tip per person", style: style),
+                Text(
+                  "\$25",
+                  style: style.copyWith(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: theme.textTheme.displaySmall?.fontSize,
+                  ),
+                ),
               ],
             ),
           ),
