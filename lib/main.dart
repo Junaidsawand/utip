@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utip/widgets/bill_amount_.dart';
 import 'package:utip/widgets/person_counter.dart';
 import 'package:utip/widgets/tip_slider.dart';
 
@@ -15,21 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'UTip',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color.fromARGB(255, 58, 4, 144),
         ),
@@ -50,6 +36,15 @@ class _UTipState extends State<UTip> {
   int _personCount = 1;
 
   double _tipPercentage = 0;
+  double _billTotal = 0;
+  double totalPerPerson() {
+    return (_billTotal * _tipPercentage + (_billTotal)) / _personCount;
+  }
+
+  double totalTip() {
+    return (_billTotal * _tipPercentage);
+  }
+
   //methods
   void increament() {
     setState(() {
@@ -68,6 +63,8 @@ class _UTipState extends State<UTip> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    double total = totalPerPerson();
+    double totalT = totalTip();
     final style = theme.textTheme.titleMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
       fontWeight: FontWeight.bold,
@@ -90,9 +87,9 @@ class _UTipState extends State<UTip> {
               ),
               child: Column(
                 children: [
-                  Text("Tip per person", style: style),
+                  Text("Total per person", style: style),
                   Text(
-                    "\$25",
+                    "$total",
                     style: style.copyWith(
                       color: theme.colorScheme.onPrimary,
                       fontSize: theme.textTheme.displaySmall?.fontSize,
@@ -105,21 +102,22 @@ class _UTipState extends State<UTip> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(color: theme.colorScheme.primary, width: 2),
               ),
               child: Column(
                 children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.attach_money),
-                      labelText: "BILL AMOUNT",
-                    ),
-                    keyboardType: TextInputType.number,
+                  BillAmountField(
+                    billAmount: _billTotal.toString(),
                     onChanged: (String value) {
-                      print("vlaue $value");
+                      // Handle the bill amount change
+                      // You can update the state or perform any action here
+                      // print("Bill Amount: $value");
+                      setState(() {
+                        _billTotal = double.parse(value);
+                      });
                     },
                   ),
                   //split bill area
@@ -134,7 +132,7 @@ class _UTipState extends State<UTip> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Tip ", style: theme.textTheme.titleMedium),
-                      Text("\$20 ", style: theme.textTheme.titleMedium),
+                      Text("$totalT ", style: theme.textTheme.titleMedium),
                     ],
                   ),
                   //slider text
