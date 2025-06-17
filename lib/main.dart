@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:utip/tip_row.dart';
+import 'package:utip/total_per_person.dart';
 import 'package:utip/widgets/bill_amount_.dart';
 import 'package:utip/widgets/person_counter.dart';
 import 'package:utip/widgets/tip_slider.dart';
@@ -78,26 +80,7 @@ class _UTipState extends State<UTip> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              // height: MediaQuery.of(context).size.height * 0.15,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Text("Total per person", style: style),
-                  Text(
-                    "$total",
-                    style: style.copyWith(
-                      color: theme.colorScheme.onPrimary,
-                      fontSize: theme.textTheme.displaySmall?.fontSize,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: TotalPerPerson(style: style, total: total, theme: theme),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -128,13 +111,7 @@ class _UTipState extends State<UTip> {
                     onIncreament: increament,
                   ),
                   //tip area
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Tip ", style: theme.textTheme.titleMedium),
-                      Text("$totalT ", style: theme.textTheme.titleMedium),
-                    ],
-                  ),
+                  TipRow(theme: theme, totalT: totalT),
                   //slider text
                   Text("${(_tipPercentage * 100).round()}%"),
                   //tip slider
